@@ -5,13 +5,13 @@ import skimage as ski
 from skimage import io
 
 #wczytanie obrazu z dysku w skali szarości
-image_array=ski.io.imread('building.jpg', True)
+image_array=ski.io.imread('woman.jpg', True)
 
 
 #MODYFIKATORY
 #nowa wielkość obrazu. program wykonuje tylko resizing dla liczb naturalnych oraz obrazów kwadratowych
 l=5 #rozmiar jądra uśredniającego
-step=1/2 #ilość kroków tzn. ile razy obraz ma zostać zresizowany (dodatnie - zmniejszenie, ujemne - powiększenie)
+step=0.5 #ilość kroków tzn. ile razy obraz ma zostać zresizowany (dodatnie - zmniejszenie, ujemne - powiększenie)
 k=int(len(image_array)/step)
 
 
@@ -60,19 +60,21 @@ if k < len(image_array):
     plt.show()
 
 elif k > len(image_array):
-    index_array = np.arange(0,len(image_array)-1,1)
-    temp_array=resized_array.copy()
+    index_array = np.arange(0,len(image_array),1)
+    temp_array=np.arange(0,len(image_array),0.5)
 
-    for i in range(k):
-        resized_array[i,:] = kernel.h1(index_array,temp_array[i,:],image_array[i,:],)
-        print('Row Done!')
+
+    for i in range(len(image_array)):
+        resized_array[i,:]= kernel.h3(index_array,temp_array,image_array[i,:])
+        print('Row', i, 'Done!')
+
 
     mod_index_array = np.arange(0,k,1)
-    temp_array=resized_array.copy()
+    temp_array=temp_array=np.arange(0,len(image_array),0.5)
 
-    for j in range(k):
-        resized_array[:,j] = kernel.h1(mod_index_array,temp_array[:,j],resized_array[:,j])
-        print('Column Done!')
+    for j in range(len(mod_index_array)):
+        resized_array[:,j] = kernel.h3(mod_index_array,temp_array,resized_array[:,j])
+        print('Column', j, 'Done!')
 
     plt.imshow(resized_array)
     plt.show()
