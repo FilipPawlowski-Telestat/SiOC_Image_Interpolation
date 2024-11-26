@@ -59,21 +59,22 @@ if k < len(image_array):
     plt.imshow(resized_array)
     plt.show()
 
-elif k > len(image_array):
-    index_array = np.arange(0,len(image_array),1)
-    temp_array=np.arange(0,len(image_array),0.5)
+elif k > len(image_array): #warunek decydujący o upscalingu obrazu
+
+    index_array = np.arange(0,len(image_array),1) #tablica indexów zdjęcia
+    temp_array=np.arange(0,len(image_array),0.5) #tablica indexów do interpolowanego rzędu
 
 
-    for i in range(len(image_array)):
-        resized_array[i,:]= kernel.h3(index_array,temp_array,image_array[i,:])
+    for i in range(len(image_array)): #pętla interpolujące wszystkie rzędy
+        resized_array[i,:]= kernel.h1(index_array,temp_array,image_array[i,:])
         print('Row', i, 'Done!')
 
 
-    mod_index_array = np.arange(0,k,1)
-    temp_array=temp_array=np.arange(0,len(image_array),0.5)
+    mod_index_array = np.arange(0,k,1) #zmodyfikowana tablica indexów kompensująca pojawienie się nowych kolumn
+    temp_array=temp_array=np.arange(0,len(image_array),0.5) #utworzenie nowej tablicy roboczej
 
-    for j in range(len(mod_index_array)):
-        resized_array[:,j] = kernel.h3(mod_index_array,temp_array,resized_array[:,j])
+    for j in range(len(mod_index_array)): #pętla interpolująca kolumny
+        resized_array[:,j] = kernel.h1(mod_index_array,temp_array,resized_array[:,j])
         print('Column', j, 'Done!')
 
     plt.imshow(resized_array)
