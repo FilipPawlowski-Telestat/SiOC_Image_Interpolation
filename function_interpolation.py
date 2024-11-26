@@ -8,7 +8,7 @@ from sklearn.metrics import mean_squared_error
 
 #Generowanie tablic wartości x + określenie długości nowego wektora
 original_array = np.linspace(-np.pi,np.pi,100)
-new_array = np.linspace(-np.pi,np.pi,500)
+new_array = np.linspace(-np.pi,np.pi,200)
 
 #przypisanie wartości y w zależności od wybranej funkcji
 values = func.f1(original_array)
